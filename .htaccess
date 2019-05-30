@@ -1,0 +1,7 @@
+#Force HTTPS over HTTP
+RewriteEngine On
+RewriteCond %{SERVER_PORT} !=443
+RewriteRule ^(.*)$ https://danfoxdesign.com/$1 [R=301,L]
+
+#Custom error pages
+ErrorDocument 404 /404.html

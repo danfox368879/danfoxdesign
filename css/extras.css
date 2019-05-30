@@ -1,0 +1,42 @@
+/* Materialize button CSS */
+
+input[type="submit" i] {
+    background: none;
+    padding: 0;
+    margin: 0;
+    border: none;
+    text-transform: uppercase;
+    font-style: normal!important;
+    letter-spacing: inherit;
+}
+.waves-effect {
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    vertical-align: middle;
+    z-index: 1;
+    will-change: opacity, transform;
+    transition: all .3s ease-out;
+}
+.waves-effect .waves-ripple {
+    position: absolute;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    margin-top: -10px;
+    margin-left: -10px;
+    opacity: 0;
+    background: rgba(255, 255, 255, 0.4);
+    transition: all 0.7s ease-out;
+    transition-property: opacity, -webkit-transform;
+    transition-property: transform, opacity;
+    transition-property: transform, opacity, -webkit-transform;
+    -webkit-transform: scale(0);
+    transform: scale(0);
+    pointer-events: none;
+}
