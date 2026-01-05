@@ -1,13 +1,14 @@
 
 //apply only to forms with the action pointing to Basin
 $('form[action^="https://usebasin.com"]').each(function(i,el){
-  form = $(el);
+  const form = $(el);
   form.submit(function(e){
     //stop the form from submitting
     e.preventDefault();
-    form = $(e.target);
+    const form = $(e.target);
+    const parent = $(form.parent());
     //get the form's action parameter and add ".json" to the end
-    action = form.attr('action') + '.json';
+    const action = form.attr('action') + '.json';
     //submit the form via ajax
     $.ajax({
       url: action,
@@ -17,7 +18,6 @@ $('form[action^="https://usebasin.com"]').each(function(i,el){
       success: function(data){
         if(data.success){
           //successful submission - hide the form and show the success message
-          parent = $(form.parent());
           parent.children('form').css('display','none');
           parent.children('.w-form-done').css('display','block');
         } else {
