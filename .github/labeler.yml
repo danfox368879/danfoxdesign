@@ -1,0 +1,21 @@
+codex:
+  - "**/*"
+
+risk:infra:
+  - ".github/workflows/**"
+  - "Dockerfile"
+  - "docker-compose.yml"
+
+risk:deps:
+  - "package.json"
+  - "package-lock.json"
+  - "pnpm-lock.yaml"
+  - "yarn.lock"
+
+safe:docs:
+  - "**/*.md"
+
+safe:tests:
+  - "**/*.test.*"
+  - "**/*.spec.*"
+  - "tests/**"
