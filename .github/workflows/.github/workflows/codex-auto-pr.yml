@@ -1,0 +1,45 @@
+name: Auto PR for Codex branches
+on:
+  push:
+    branches:
+      - 'codex/**'
+jobs:
+  create_pr:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Create Pull Request for Codex branch
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const branchRef = process.env.GITHUB_REF;
+            const branchName = branchRef.replace('refs/heads/', '');
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            // Check if an open PR from this branch already exists
+            const { data: prs } = await github.rest.pulls.list({
+              owner,
+              repo,
+              state: 'open',
+              head: `${owner}:${branchName}`,
+              base: 'master'
+            });
+            if (prs.length === 0) {
+              await github.rest.pulls.create({
+                owner,
+                repo,
+                head: branchName,
+                base: 'master',
+                title: `Codex changes from ${branchName}`,
+                body: 'This pull request was automatically created for a Codex branch.',
+              });
+              console.log(`Created PR for branch ${branchName}`);
+            } else {
+              console.log(`A PR for branch ${branchName} already exists.`);
+            }
