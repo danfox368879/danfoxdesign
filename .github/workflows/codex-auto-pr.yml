@@ -26,18 +26,20 @@ jobs:
             const { data: prs } = await github.rest.pulls.list({
               owner,
               repo,
-              head: `${owner}:${branchName}`,
               state: 'open',
+              head: `${owner}:${branchName}`,
+              base: 'master'
             });
-            if (prs.length > 0) {
-              core.info(`Pull request from ${branchName} already exists.`);
-            } else {
+            if (prs.length === 0) {
               await github.rest.pulls.create({
                 owner,
                 repo,
                 head: branchName,
                 base: 'master',
-                title: `Automated PR from ${branchName}`,
-                body: 'This PR was automatically created by GitHub Actions for Codex branch.',
+                title: `Codex changes from ${branchName}`,
+                body: 'This pull request was automatically created for a Codex branch.',
               });
+              console.log(`Created PR for branch ${branchName}`);
+            } else {
+              console.log(`A PR for branch ${branchName} already exists.`);
             }
