@@ -2,8 +2,8 @@ codex:
   - "**/*"
 
 "risk:infra":
-  - ".github/workflows/**"
-  -" "Dockerfile"
+  -  - ".github/workflows/**"
+  - "Dockerfile"
   - "docker-compose.yml"
 
 "risk:deps":
