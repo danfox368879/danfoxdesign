@@ -1,0 +1,53 @@
+name: Mirror Webflow to Pages
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 * * * *'
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: 'pages'
+  cancel-in-progress: false
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: master
+
+      - name: Mirror Webflow site into docs
+        run: |
+          mkdir -p docs
+          find docs -mindepth 1 -maxdepth 1 -exec rm -rf {} +
+          wget \
+            --mirror \
+            --page-requisites \
+            --adjust-extension \
+            --convert-links \
+            --span-hosts \
+            --domains danfoxdesign.webflow.io,assets.website-files.com \
+            --no-host-directories \
+            --directory-prefix docs \
+            --no-parent \
+            https://danfoxdesign.webflow.io/
+          touch docs/.nojekyll
+          touch docs/.gitkeep
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
