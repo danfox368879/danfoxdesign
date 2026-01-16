@@ -1,9 +1,0 @@
-# Assign default ownership to repository owner
-* @danfox368879
-
-# Example: assign ownership of the src directory.
-/src/ @danfox368879
-
-# Protect workflows and configuration files.
-/.github/workflows/ @danfox368879
-/package.json @danfox368879
